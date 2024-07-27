@@ -1,37 +1,28 @@
 <?php
+$image_path = "img.png";
 
-?>
+$image_info = getimagesize($image_path);
+$image_extension = image_type_to_extension($image_info[2], false);
+// var_dump($image_info);
 
-<!DOCTYPE html>
-<html lang="en">
+switch ($image_extension) {
+    case ".png":
+        $image = imagecreatefrompng($image_path);
+        break;
+    case ".jpg":
+    case ".jpeg":
+        $image = imagecreatefromjpeg($image_path);
+        break;
+    case ".gif":
+        $image = imagecreatefromgif($image_path);
+        break;
+    default:
+        die("Format d'image non supporté");
+}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP-projet-1</title>
-</head>
+$destination_path = "nouvelle-img.jpg";
 
-<body>
+imagejpeg($image, $destination_path, 90);
+imagedestroy($image);
 
-    <h1 class="hero">
-
-    </h1>
-    <div class="container">
-        <div class="holder">
-            <form action="ondex.php" method="POST">
-                <div class="wrapper">
-                    <input type="text" placeholder="Enter Username" name="name">
-                </div>
-                <br>
-                <br>
-                <div class="wrapper">
-                    <input type="submit" value="submit" name="submit">
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <h4 class="footer">Made with <span>💖</span>by Léa B.</h4>
-</body>
-
-</html>
+echo "Image convertie avec succès";
